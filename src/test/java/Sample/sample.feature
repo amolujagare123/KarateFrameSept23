@@ -4,7 +4,8 @@ Feature: all sample rest API requests
   @listUser
   Scenario: to verify list user request displays the records
     Given url 'https://reqres.in/'
-    And path '/api/users?page=2'
+    And path '/api/users'
+    And param page = '2'
     When method GET
     Then status 200
 
@@ -21,6 +22,32 @@ Feature: all sample rest API requests
       """
       When method POST
       Then status 201
+      And match response !=
+      """
+     {
+      "name": "morpheus",
+      "job": "leader",
+      "id": "66",
+      "createdAt": "2023-09-18T01:31:46.170Z"
+     }
+
+      """
+
+  @createUser @nameValidate
+  Scenario: to verify create user request is executed correctly
+    Given url 'https://reqres.in/'
+    And path '/api/users'
+    And request
+      """
+      {
+        "name": "morpheus",
+        "job": "leader"
+      }
+      """
+    When method POST
+    Then status 201
+    And match response.name == 'morpheus'
+
 
       @getSingleUser
       Scenario: to verify the get single user request

@@ -10,6 +10,6 @@ public class SampleTestRunner {
     {
         return Karate.run("sample")
                 .relativeTo(getClass())
-                .tags("@deleteUser");
+                .tags("@createUser");
     }
 }
