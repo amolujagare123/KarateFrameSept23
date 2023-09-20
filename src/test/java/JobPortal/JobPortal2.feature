@@ -1,8 +1,12 @@
 Feature: All Job portal request
 
+  Background: opening url
+     Given url 'http://localhost:9897'
+     * def statusCode = 201
+
   @listUsers
   Scenario: to verify the job list
-    Given url 'http://localhost:9897'
+   # Given url 'http://localhost:9897'
     And path '/normal/webapi/all'
     And header Accept = 'application/xml'
     When method GET
@@ -36,7 +40,7 @@ Feature: All Job portal request
 
   @createUsers  @jsonInput
   Scenario: to verify the job created
-    Given url 'http://localhost:9897'
+ #   Given url 'http://localhost:9897'
     And path 'normal/webapi/add'
     And header Accept = 'application/json'
     And header ContentType = 'application/json'
@@ -61,11 +65,12 @@ Feature: All Job portal request
     """
     When method post
     Then print response
+    * print statusCode
     And status 201
 
   @createUsers  #@jsonInput
   Scenario: to verify the job created
-    Given url 'http://localhost:9897'
+  #  Given url 'http://localhost:9897'
     And path 'normal/webapi/add'
     And header Accept = 'application/xml'
     And header ContentType = 'application/json'
@@ -98,7 +103,7 @@ Feature: All Job portal request
 
   @createUsersXML
   Scenario: to verify the job created
-    Given url 'http://localhost:9897'
+  #  Given url 'http://localhost:9897'
     And path 'normal/webapi/add'
     And header Accept = 'application/xml'
     And header ContentType = 'application/xml'
@@ -121,4 +126,34 @@ Feature: All Job portal request
 
     When method post
     Then status 201
+
+
+  @createUsers  @jsonInputFile
+  Scenario: to verify the job created
+ #   Given url 'http://localhost:9897'
+    And path 'normal/webapi/add'
+    And header Accept = 'application/json'
+    And header ContentType = 'application/json'
+    * def bodyFile = read('/json/createUserJsonBody.json')
+    And request bodyFile
+    When method post
+    Then print response
+    * print statusCode
+    And status 201
+    And match response == bodyFile
+
+  @createUsers  @xmlInputFile
+  Scenario: to verify the job created
+ #   Given url 'http://localhost:9897'
+    And path 'normal/webapi/add'
+    And header Accept = 'application/xml'
+    And header ContentType = 'application/xml'
+    * def bodyFile = read('/json/createUserBody.xml')
+    And request bodyFile
+    When method post
+    Then print response
+    * print statusCode
+    And status 201
+    And print response
+  #  And match response == bodyFile
 

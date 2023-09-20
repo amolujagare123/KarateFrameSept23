@@ -7,8 +7,8 @@ public class JobPortal {
     @Karate.Test
     public Karate runJobPortal()
     {
-        return Karate.run("JobPortal")
+        return Karate.run("JobPortal2")
                 .relativeTo(getClass())
-                .tags("@createUsersXML");
+                .tags("@jsonInput");
     }
 }
