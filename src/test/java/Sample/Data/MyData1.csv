@@ -1,0 +1,5 @@
+url,path,method,statusCode
+localhost:1010,/demo/add,post,201
+localhost:1010,/demo/edit,put,200
+localhost:1010,/demo/viewall,get,200
+localhost:1010,/demo/delete,delete,401

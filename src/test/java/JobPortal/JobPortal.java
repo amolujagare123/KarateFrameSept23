@@ -9,6 +9,6 @@ public class JobPortal {
     {
         return Karate.run("JobPortal2")
                 .relativeTo(getClass())
-                .tags("@jsonInput");
+                .tags("@schemaValidation");
     }
 }

@@ -8,6 +8,17 @@ Feature: all sample rest API requests
     And param page = '2'
     When method GET
     Then status 200
+    And match response ==
+    """
+    {
+	"page": '#number',
+	"per_page": '#number',
+	"total": '#number',
+	"total_pages": '#number',
+	"data":'#[] #object',
+	"support": '#object'
+    }
+    """
 
     @createUser
     Scenario: to verify create user request is executed correctly
@@ -22,7 +33,7 @@ Feature: all sample rest API requests
       """
       When method POST
       Then status 201
-      And match response !=
+      And match response ==
       """
      {
       "name": "morpheus",
@@ -33,6 +44,29 @@ Feature: all sample rest API requests
 
       """
 
+  @createUser @schemaValidations
+  Scenario: to verify create user request is executed correctly
+    Given url 'https://reqres.in/'
+    And path '/api/users'
+    And request
+      """
+      {
+        "name": "morpheus",
+        "job": "leader"
+      }
+      """
+    When method POST
+    Then status 201
+    And match response ==
+      """
+     {
+      "name": "#string",
+      "job": "#string",
+      "id": "#string",
+      "createdAt": "#string"
+     }
+
+      """
   @createUser @nameValidate
   Scenario: to verify create user request is executed correctly
     Given url 'https://reqres.in/'
@@ -77,3 +111,21 @@ Feature: all sample rest API requests
     And path '/api/users/2'
     When method delete
     Then status 204
+
+  @createUser @embeddedExp
+  Scenario: to verify create user request is executed correctly
+    Given url 'https://reqres.in/'
+    And path '/api/users'
+    * def name = 'Prashant'
+    * def job = 'Test Manager'
+    * print "name=" , name
+    * print "job=" , job
+    And request
+      """
+      {
+        "name": '#(name)',
+        "job": '#(job)'
+      }
+      """
+    When method POST
+    Then status 201

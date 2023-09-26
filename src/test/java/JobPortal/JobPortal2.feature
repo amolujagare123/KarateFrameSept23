@@ -100,6 +100,47 @@ Feature: All Job portal request
   #  And print  response.jobId
 
 
+  @createUsers @schemaValidation
+  Scenario: to verify the job created
+  #  Given url 'http://localhost:9897'
+    And path 'normal/webapi/add'
+    And header Accept = 'application/json'
+    And header ContentType = 'application/json'
+    And request
+    """
+          {
+        "experience": [
+          "1 year in software testing"
+        ],
+        "jobDescription": "Requited automation Testers",
+        "jobId": 13,
+        "jobTitle": "Software Test engg. Requred",
+        "project": [
+          {
+            "projectName": "Stock managaement",
+            "technology": [
+              "Java + sql"
+            ]
+          }
+        ]
+      }
+    """
+    When method post
+    Then print response
+    And status 201
+    And match response ==
+    """
+     {
+        "experience":'#[] #string',
+        "jobDescription": "#string",
+        "jobId": "#number",
+        "jobTitle": "#string",
+        "project": '#[] #object'
+
+      }
+    """
+
+
 
   @createUsersXML
   Scenario: to verify the job created
