@@ -4,7 +4,7 @@ Feature: all chat server requests
   Scenario: to verify list user request displays the records of chat server
     Given url 'http://localhost/chat/lhc_web/index.php/site_admin'
     And path '/restapi/getusers'
-     #And headers {accept:"application/json" , Authorization : "Bearer YWRtaW46YWRtaW4xMjM="}
+     ##And headers {accept:"application/json" , Authorization : "Bearer YWRtaW46YWRtaW4xMjM="}
     And header Authorization = call read('credencials.js') {username:"admin",password:"admin123"}
     When method GET
     Then status 200
